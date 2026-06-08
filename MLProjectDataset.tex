@@ -1,0 +1,325 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{amsmath, amssymb}
+\usepackage{booktabs}
+\usepackage{tcolorbox}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{tikz}
+
+\tcbset{boxsep=2pt, left=4pt, right=4pt, top=2pt, bottom=2pt}
+
+% Colores UAEM
+\definecolor{uaemcolor}{RGB}{0, 80, 100}
+\definecolor{grisclaro}{RGB}{245, 245, 245}
+\definecolor{verdeenv}{RGB}{34, 120, 70}
+\definecolor{naranjaaqi}{RGB}{200, 90, 20}
+
+\usetheme{default}
+\usecolortheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamercolor{normal text}{fg=black}
+\setbeamercolor{frametitle}{fg=black}
+
+% Frametitle estilo SimplePlus: barra de color arriba, texto negro, limpio
+\setbeamertemplate{frametitle}{
+  \nointerlineskip
+
+  \vskip0.3cm
+  \hspace{0.5cm}{\large\bfseries\insertframetitle}
+  %\vskip0.15cm
+  \hspace{0.5cm}\textcolor{uaemcolor!60}{\rule{\dimexpr\textwidth-0.0cm}{0.4pt}}
+  %\vskip0.1cm
+}
+
+% Footer estilo SimplePlus: minimalista
+\setbeamertemplate{footline}{
+\hfill\insertframenumber/\inserttotalframenumber\hspace{0.4cm}
+}
+
+\setbeamertemplate{itemize item}{\color{uaemcolor}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{uaemcolor}--}
+
+\hypersetup{colorlinks=true, linkcolor=uaemcolor, urlcolor=uaemcolor}
+
+%================================================
+\begin{document}
+%================================================
+
+%------------------------------------------------
+% PORTADA estilo SimplePlus
+%------------------------------------------------
+{
+\setbeamertemplate{footline}{}
+\setbeamertemplate{frametitle}{}
+\begin{frame}
+
+
+  \begin{center}
+    {\small{Universidad Autónoma Del Estado De Morelos}}\\[0.05cm]
+    {\footnotesize Instituto de Investigación en Ciencias Básicas y Aplicadas}
+  \end{center}
+
+\vspace{0.8cm}
+  \textcolor{gray}{\rule{\textwidth}{0.4pt}}
+  \vspace{-0.4cm}
+  
+  \begin{center}
+    {\Large\bf Predicción de Calidad del Aire}\\[0.2cm]
+    {\small\textit{Propuesta de Proyecto}}
+  \end{center}
+
+  \vspace{-0.4cm}
+  \textcolor{gray}{\rule{\textwidth}{0.4pt}}
+  \vspace{0.2cm}
+
+
+
+
+    \vspace{1cm}
+  \footnotesize\centering{Aprendizaje Automático -- Junio 2026\\[0.1cm]
+Rebecca Castillo \\[0.1cm]
+}
+
+\end{frame}
+}
+%------------------------------------------------
+% SLIDE: Resumen
+%------------------------------------------------
+\begin{frame}{Resumen de la Propuesta}
+\vspace{0.2cm}
+\begin{columns}[T]
+\column{0.30\textwidth}
+\begin{tcolorbox}[colback=uaemcolor!6, colframe=uaemcolor!60, title=\textbf{Dataset}]
+\small\centering
+Global Air Quality\\
+\& Deforestation\\[4pt]
+35{,}000 registros\\
+15 variables\\
+2014--2023\\[4pt]
+\footnotesize Kaggle — Apache 2.0
+\end{tcolorbox}
+
+\column{0.30\textwidth}
+\begin{tcolorbox}[colback=verdeenv!6, colframe=verdeenv!60, title=\textbf{Objetivos}]
+\small\centering
+\textbf{Opción A:}\\Predecir AQI\\(Regresión)\\[6pt]
+\textbf{Opción B:}\\Clasificar categoría\\de riesgo\\(Clasificación)
+\end{tcolorbox}
+
+\column{0.30\textwidth}
+\begin{tcolorbox}[colback=naranjaaqi!6, colframe=naranjaaqi!60, title=\textbf{Valor agregado}]
+\small\centering
+Análisis para las\\5 ciudades mexicanas\\dentro de un\\contexto global\\de 45 países
+\end{tcolorbox}
+\end{columns}
+
+\end{frame}
+%------------------------------------------------
+% SLIDE: Dataset
+%------------------------------------------------
+\begin{frame}{Dataset: Global Air Quality \& Deforestation}
+\begin{columns}[T]
+\column{0.45\textwidth}
+\vspace{-0.5cm}
+\begin{tcolorbox}[colback=grisclaro, colframe=uaemcolor!60, title=\textbf{Descripción general}]
+\small
+\begin{tabular}{ll}
+\textbf{Fuente:}    & Kaggle (Apache 2.0) \\
+\textbf{Registros:} & 35{,}000 \\
+\textbf{Periodo:}   & 2014 -- 2023 \\
+\textbf{Ciudades:}  & 225 en 45 países \\
+\textbf{Tamaño:}    & $\sim$3.1 MB (CSV) \\
+\end{tabular}
+\end{tcolorbox}
+
+\vspace{0.2cm}
+\begin{tcolorbox}[colback=verdeenv!6, colframe=verdeenv!60, title=\textbf{México en el dataset}]
+\small
+5 ciudades incluidas directamente:\\[3pt]
+CDMX $\cdot$ Guadalajara $\cdot$ Monterrey\\
+Puebla $\cdot$ Tijuana\\[3pt]
+\footnotesize\textit{Emerging Tier}: junto a Brasil, Colombia,\\Rusia y 16 países más.
+\end{tcolorbox}
+
+\column{0.58\textwidth}
+\vspace{-0.3cm}
+\begin{tcolorbox}[colback=grisclaro, colframe=black!25, title=\textbf{Variables (15 columnas)}]
+\small
+\begin{tabular}{ll}
+\vspace{0.1cm}
+\textbf{Variable} & \textbf{Descripción} \\
+\vspace{0.1cm}
+\texttt{AQI}                  & Índice calidad del aire \\
+\texttt{PM2.5 / PM10}         & Partículas suspendidas \\
+\texttt{CO2\_Emissions}       & Emisiones CO\textsubscript{2} \\
+\texttt{Deforestation\_Rate}  & Tasa deforestación (\%) \\
+\texttt{Vehicles\_Increase}   & Crecim.\ vehicular (\%) \\
+\texttt{Industries\_Increase} & Crecim.\ industrial (\%) \\
+\texttt{Env\_Budget}          & Presupuesto ambiental \\
+\texttt{Population\_Density}  & Densidad poblacional \\
+\texttt{Green\_Space\_Ratio}  & Espacios verdes (\%) \\
+\texttt{Life\_Expectancy}     & Esperanza de vida \\
+
+\end{tabular}
+\end{tcolorbox}
+\end{columns}
+\end{frame}
+
+%------------------------------------------------
+% SLIDE: Variable objetivo
+%------------------------------------------------
+\begin{frame}{Variable Objetivo: Índice de Calidad del Aire (AQI)}
+\begin{columns}[T]
+\column{0.44\textwidth}
+\vspace{-0.5cm}
+\begin{tcolorbox}[colback=grisclaro, colframe=uaemcolor!60, title=\textbf{¿Qué es el AQI?}]
+\small
+El \textbf{Air Quality Index} cuantifica la contaminación del aire en una escala de 0 a 500. A mayor valor, peor calidad y mayor riesgo para la salud.\\[4pt]
+\footnotesize\textit{Estadísticas del dataset:}\\
+Min: 15.0 \quad Max: 500.0 \quad Media: $\approx$145.0
+\end{tcolorbox}
+
+\vspace{0.2cm}
+\begin{tcolorbox}[colback=grisclaro, colframe=black!25, title=\textbf{Features predictoras}]
+\small
+Vehículos $\cdot$ Industria $\cdot$ Densidad\\
+Presupuesto ambiental $\cdot$ Deforestación\\
+Espacios verdes $\cdot$ Emisiones CO\textsubscript{2}
+\end{tcolorbox}
+
+\column{0.52\textwidth}
+\vspace{-0.5cm}
+\begin{tcolorbox}[colback=grisclaro, colframe=black!25, title=\textbf{Categorías del AQI}]
+\small
+\begin{tabular}{cll}
+\toprule
+\textbf{Rango} & \textbf{Categoría} & \textbf{Riesgo} \\
+\midrule
+0--50   & {\color{verdeenv}\textbf{Bueno}}                & Mínimo \\
+51--100  & {\color{yellow!60!black}\textbf{Moderado}}      & Bajo \\
+101--150 & {\color{orange!80!black}\textbf{No saludable*}} & Sensibles \\
+151--200 & {\color{red!70!black}\textbf{No saludable}}     & General \\
+201--300 & {\color{purple!70!black}\textbf{Muy peligroso}} & Alerta \\
+301--500 & {\color{black}\textbf{Peligroso}}               & Emergencia \\
+\bottomrule
+\end{tabular}
+\vspace{3pt}
+\footnotesize *Adultos mayores, niños, personas con asma.
+\end{tcolorbox}
+
+\vspace{0.15cm}
+\begin{tcolorbox}[colback=uaemcolor!5, colframe=uaemcolor!40]
+\footnotesize\centering
+La media del dataset ($\approx$145) cae en \textbf{No saludable para grupos sensibles}, lo que da relevancia práctica al problema.
+\end{tcolorbox}
+\end{columns}
+\end{frame}
+
+%------------------------------------------------
+% SLIDE: Dos objetivos
+%------------------------------------------------
+\begin{frame}{Objetivos — Dos Enfoques Propuestos}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\vspace{-0.5cm}
+\begin{tcolorbox}[colback=uaemcolor!5, colframe=uaemcolor!70, title={\textbf{Opción A — Regresión}}]
+\small
+\textbf{Pregunta:}\\
+¿Cuál será el AQI de una ciudad dado su contexto ambiental, vehicular e industrial?\\[5pt]
+\textbf{Target:} \texttt{AQI} (continuo, 0--500)\\[5pt]
+\textbf{Modelos:}
+\begin{itemize}\small
+    \item Regresión Lineal \textit{(baseline)}
+    \item Random Forest Regressor
+\end{itemize}
+\textbf{Métricas:} RMSE, $R^2$\\[3pt]
+\footnotesize\textit{Cuantifica exactamente qué tan contaminada estará una ciudad.}
+\end{tcolorbox}
+
+\column{0.48\textwidth}
+\vspace{-0.5cm}
+\begin{tcolorbox}[colback=verdeenv!5, colframe=verdeenv!70, title={\textbf{Opción B — Clasificación}}]
+\small
+\textbf{Pregunta:}\\
+¿A qué categoría de riesgo pertenece una ciudad según sus indicadores ambientales?\\[5pt]
+\textbf{Target:} Categoría AQI (6 clases)\\[5pt]
+\textbf{Modelos:}
+\begin{itemize}\small
+    \item Regresión Logística \textit{(baseline)}
+    \item Random Forest Classifier
+\end{itemize}
+\textbf{Métricas:} Accuracy, F1-score\\[3pt]
+\footnotesize\textit{Útil para políticas públicas: identificar ciudades en riesgo alto.}
+\end{tcolorbox}
+\end{columns}
+
+\vspace{0.2cm}
+\centering\footnotesize{Ambos enfoques usan el mismo dataset y las mismas features.}
+
+\end{frame}
+
+%------------------------------------------------
+% SLIDE: Cronograma
+%------------------------------------------------
+\begin{frame}{Cronograma de Trabajo}
+\vspace{-0.1cm}
+\begin{columns}[T]
+\column{0.34\textwidth}
+\begin{tcolorbox}[colback=uaemcolor!5, colframe=uaemcolor!60, title={\footnotesize\textbf{Semana 1 — Exploración}}]
+\footnotesize
+\begin{tabular}{ll}
+\textbf{Lun 9}    & Propuesta (hoy) \\[2pt]
+\textbf{Mar--Mié} & Carga de datos \\
+                  & EDA inicial \\[2pt]
+\textbf{Jue}      & Visualizaciones \\
+                  & Correlaciones \\[2pt]
+\textbf{Vie}      & Limpieza y \\
+                  & preprocesamiento \\
+\end{tabular}
+\end{tcolorbox}
+
+\column{0.33\textwidth}
+\begin{tcolorbox}[colback=verdeenv!5, colframe=verdeenv!60, title={\footnotesize\textbf{Semana 2 — Modelado}}]
+\footnotesize
+\begin{tabular}{ll}
+\textbf{Lun--Mar} & Entrenamiento \\
+                  & de modelos \\[2pt]
+\textbf{Mié}      & Evaluación y \\
+                  & comparación \\[2pt]
+\textbf{Jue--Vie} & Ajuste de \\
+                  & hiperparámetros \\
+\end{tabular}
+\end{tcolorbox}
+
+\column{0.32\textwidth}
+\begin{tcolorbox}[colback=naranjaaqi!5, colframe=naranjaaqi!60, title={\footnotesize\textbf{Semana 3 — Análisis}}]
+\footnotesize
+\begin{tabular}{ll}
+\textbf{Lun--Mar} & Análisis de \\
+                  & resultados \\[2pt]
+\textbf{Mié}      & Enfoque en \\
+                  & ciudades MX \\[2pt]
+\textbf{Jue--Vie} & Redacción del \\
+                  & reporte final \\
+\end{tabular}
+\end{tcolorbox}
+\end{columns}
+
+\vspace{0.2cm}
+\begin{tcolorbox}[colback=grisclaro, colframe=black!25, title=\footnotesize\textbf{Herramientas}]
+\centering\footnotesize
+\textbf{Python:} pandas, scikit-learn, matplotlib, seaborn
+\quad$\cdot$\quad \textbf{Entorno:} Jupyter Notebook
+\quad$\cdot$\quad \textbf{Datos:} CSV $\sim$3.1 MB
+\end{tcolorbox}
+\end{frame}
+
+
+
+\end{document}
